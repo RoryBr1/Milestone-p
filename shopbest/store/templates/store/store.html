@@ -3,44 +3,22 @@
 {% block content %}
 
 <div class="row">
+    <!-- Following code renders a card for each product in the database -->
+    {% for product in products %}
     <div class="col-lg-4">
-        <img class="thumbnail" src="{% static 'images/image_placeholder.png' %}">
         <div class="box-element product">
-            <h6 class="text-center"><strong>Product</strong></h6>
+            <img class="thumbnail" src="{{product.image.url}}">
+            <h6 class="text-center"><strong>{{product.name}}</strong></h6>
             <hr>
-    
-            <button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-            <a class="btn btn-outline-success" href="#">View</a>
-            <h4 style="display: inline-block; float: right"><strong>€10</strong></h4>
-    
+            <div class="clearfix">
+                <h4 class="product-price"><strong>
+                        € {{product.price|floatformat:2}}
+                    </strong></h4>
+                <button class="btn btn-outline-success add-to-cart">Add to Cart <i class="fas fa-cart-plus"></i></button>
+            </div>
         </div>
     </div>
-    
-    <div class="col-lg-4">
-        <img class="thumbnail" src="{% static 'images/image_placeholder.png' %}">
-        <div class="box-element product">
-            <h6 class="text-center"><strong>Product</strong></h6>
-            <hr>
-    
-            <button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-            <a class="btn btn-outline-success" href="#">View</a>
-            <h4 style="display: inline-block; float: right"><strong>€10</strong></h4>
-    
-        </div>
-    </div>
-    
-    <div class="col-lg-4">
-        <img class="thumbnail" src="{% static 'images/image_placeholder.png' %}">
-        <div class="box-element product">
-            <h6 class="text-center"><strong>Product</strong></h6>
-            <hr>
-    
-            <button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-            <a class="btn btn-outline-success" href="#">View</a>
-            <h4 style="display: inline-block; float: right"><strong>€10</strong></h4>
-    
-        </div>
-    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
