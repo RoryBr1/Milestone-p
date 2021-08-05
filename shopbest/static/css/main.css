@@ -45,10 +45,14 @@ nav .fa-shopping-cart {
     border-radius: 50%;
 }
 
-.fa-bars {
+nav .fa-bars, nav .fa-times {
     color: white;
     opacity: 1 !important;
     font-size: 2rem;
+    animation-name:fade;
+    animation-duration:0.2;
+    transition-property:opacity;
+	transition-duration:0.2s;
 }
 
 .navbar-toggler {
