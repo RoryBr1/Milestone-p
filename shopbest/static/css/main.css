@@ -7,6 +7,10 @@ body {
     font-family: 'Poppins', sans-serif !important;
 }
 
+.fas, .far {
+    opacity: 0.7 !important;
+}
+
 .content {
     min-height: 1000px;
 }
@@ -21,6 +25,7 @@ body {
 
 nav .fa-shopping-cart {
     margin-left: 20px !important;
+    opacity: 1 !important;
     color: white;
     font-size: 2rem;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
@@ -42,6 +47,7 @@ nav .fa-shopping-cart {
 
 .fa-bars {
     color: white;
+    opacity: 1 !important;
     font-size: 2rem;
 }
 
@@ -159,4 +165,10 @@ select {
     font-size: 0.9rem !important;
     color: rgba(30, 30, 30);
     border-radius: 0px !important;
+}
+
+/*      Footer      */
+.footer {
+    height: 90px;
+    margin-top:50px;
 }
