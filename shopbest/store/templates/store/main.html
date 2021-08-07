@@ -19,14 +19,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
     integrity="sha512-xA6Hp6oezhjd6LiLZynuukm80f8BoZ3OpcEYaqKoCV3HKQDrYjDE1Gu8ocxgxoXmwmSzM4iqPvCsOkQNiu41GA=="
     crossorigin="anonymous" type="text/css">
+
+  <!-- Check if user is logged in -->
+  <!-- Create csrf token -->
+  <script type="text/javascript">
+    var user = "{{request.user}}"
+
+    function getToken(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken');
+  </script>
 </head>
 
 <body>
   <div id="content">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white">
       <a class="navbar-brand" href="{% url 'store' %}">ShopBest</a>
-      <button class="navbar-toggler" id="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" id="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <i class="fas fa-bars" id="navbar-open-icon"></i>
         <i class="fas fa-times hidden" id="navbar-close-icon"></i>
       </button>
@@ -44,7 +68,7 @@
           <a href="{% url 'cart' %}">
             <i class="fas fa-shopping-cart ml-auto"></i>
           </a>
-          <p id="cart-total">0</p>
+          <p id="cart-total">{{cartItems}}</p>
 
         </div>
       </div>

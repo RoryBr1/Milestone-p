@@ -14,7 +14,7 @@
                 <h4 class="product-price"><strong>
                         € {{product.price|floatformat:2}}
                     </strong></h4>
-                <button class="btn btn-outline-success add-to-cart">Add to Cart <i class="fas fa-cart-plus"></i></button>
+                <button data-product="{{product.id}}" class="btn btn-outline-success add-to-cart update-cart">Add to Cart <i class="fas fa-cart-plus"></i></button>
             </div>
         </div>
     </div>
