@@ -9,7 +9,8 @@
 
   <!-- CSS -->
   <!-- Bootstrap CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- main.css (custom CSS) -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
@@ -45,7 +46,9 @@
 <body>
   <div id="content">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white">
-      <a class="navbar-brand" href="{% url 'store' %}">ShopBest</a>
+      <a class="navbar-brand" href="{% url 'store' %}">
+        <img class="nav-logo" src="{% static 'images/nav-logo.png' %}" alt="ShopBest site logo">
+      </a>
       <button class="navbar-toggler" id="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -55,10 +58,6 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'store' %}">Store <span class="sr-only">(current)</span></a>
-          </li>
-
         </ul>
         <div class="form-inline my-2 my-lg-0">
           <a href="#" class="btn btn-secondary ml-auto">Login <i class="far fa-user"></i></a>
@@ -78,34 +77,25 @@
     </nav>
 
 
-  <!--- Toasts (flash messages) -->
-  {% if messages %}
-  {% for message in messages %}
-  <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  {% endfor %}
-{% endif %}
-
+    <!--- Toasts (flash messages) -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
 
     <div class="container">
-
       {% block content %}
 
-      <script type="text/javascript">
-        var shipping = '{{order.shipping}}'
-      
-        if (shipping == 'False'){
-           document.getElementById('shipping-info').innerHTML = ''
-        }
-      </script>
       {% endblock content %}
-
     </div>
   </div>
+  
   <!-- Footer -->
   <!-- Modified code snippet from https://startbootstrap.com/snippets/sticky-footer-flexbox -->
   <div class="footer bg-dark text-white align-middle">

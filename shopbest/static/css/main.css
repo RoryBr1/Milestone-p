@@ -7,6 +7,10 @@ body {
     font-family: 'Poppins', sans-serif !important;
 }
 
+.nav-logo {
+    height: 50px;
+}
+
 .fas, .far {
     opacity: 0.7 !important;
 }
