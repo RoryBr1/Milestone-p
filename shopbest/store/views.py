@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 import json
+from django.contrib import messages
 
 
 #   Views
@@ -17,7 +18,7 @@ def store(request):
 	else:
 		#	Create temporary cart for guest user
 		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0}
+		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
 		cartItems = order['get_cart_items']
 
 	products = Product.objects.all()
@@ -31,12 +32,14 @@ def cart(request):
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 		items = order.orderitem_set.all()
+		cartItems = order.get_cart_items
 	else:
 		#	Create temporary cart for guest user
 		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0}
+		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+		cartItems = order['get_cart_items']
 
-	context = {'items':items, 'order':order}
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
 
 
@@ -46,13 +49,16 @@ def checkout(request):
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 		items = order.orderitem_set.all()
+		cartItems = order.get_cart_items
 	else:
 		#	Create temporary cart for guest user
 		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0}
+		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+		cartItems = order['get_cart_items']
 
-	context = {'items':items, 'order':order}
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
+
 
 def updateItem(request):
 	data = json.loads(request.body)
@@ -69,8 +75,13 @@ def updateItem(request):
 
 	if action == 'add':
 		orderItem.quantity = (orderItem.quantity + 1)
+		messages.info(request, f'{product.name} added to cart')
 	elif action == 'remove':
 		orderItem.quantity = (orderItem.quantity - 1)
+		messages.info(request, f'{product.name} removed from cart')
+	elif action == 'removeAll':
+		messages.info(request, f'All {product.name} removed from cart')
+		orderItem.quantity = 0
 
 	orderItem.save()
 

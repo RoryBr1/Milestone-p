@@ -18,28 +18,43 @@ for (i = 0; i < updateBtns.length; i++) {
     })
 }
 
-function updateUserOrder(productId, action) {
-    console.log('User is authenticated, sending data...')
+function getToken(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-    var url = '/update_item/'
+var csrftoken = getToken('csrftoken')
 
-    fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken,
-            },
-            body: JSON.stringify({
-                'productId': productId,
-                'action': action
-            })
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            location.reload()
-        });
+function updateUserOrder(productId, action){
+	console.log('User is authenticated, sending data...')
+
+		var url = '/update_item/'
+
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			}, 
+			body:JSON.stringify({'productId':productId, 'action':action})
+		})
+		.then((response) => {
+		   return response.json();
+		})
+		.then((data) => {
+		    location.reload()
+		});
 }
 
 /* Toggle navbar-toggler icon between "bars" and "X" icons 

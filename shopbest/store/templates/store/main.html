@@ -9,9 +9,7 @@
 
   <!-- CSS -->
   <!-- Bootstrap CDN -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- main.css (custom CSS) -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
@@ -23,7 +21,7 @@
   <!-- Check if user is logged in -->
   <!-- Create csrf token -->
   <script type="text/javascript">
-    var user = "{{request.user}}"
+    var user = '{{request.user}}'
 
     function getToken(name) {
       var cookieValue = null;
@@ -40,7 +38,7 @@
       }
       return cookieValue;
     }
-    var csrftoken = getToken('csrftoken');
+    var csrftoken = getToken('csrftoken')
   </script>
 </head>
 
@@ -68,16 +66,42 @@
           <a href="{% url 'cart' %}">
             <i class="fas fa-shopping-cart ml-auto"></i>
           </a>
-          <p id="cart-total">{{cartItems}}</p>
+          <p id="cart-total">
+            {% if cartItems > 0 %}
+            {{cartItems}}
+            {% else %}
+            0
+            {% endif %}</p>
 
         </div>
       </div>
     </nav>
 
+
+  <!--- Toasts (flash messages) -->
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+{% endif %}
+
+
     <div class="container">
 
       {% block content %}
 
+      <script type="text/javascript">
+        var shipping = '{{order.shipping}}'
+      
+        if (shipping == 'False'){
+           document.getElementById('shipping-info').innerHTML = ''
+        }
+      </script>
       {% endblock content %}
 
     </div>
@@ -102,6 +126,11 @@
 
   <!-- Main.js (custom JavaScript handling) -->
   <script src="{% static 'js/main.js' %}"></script>
+
+  <!-- Load toasts (flash messages) -->
+  <script type="text/javascript">
+    $('.toast').toast('show');
+  </script>
 
 </body>
 
