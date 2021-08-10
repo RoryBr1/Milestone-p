@@ -1,1 +1,1 @@
-web: python shopbest/manage.py
+web: gunicorn shopbest/manage.py
