@@ -1,1 +1,1 @@
-web: gunicorn shopbest/shopbest.wsgi:application
+web: gunicorn shopbest.shopbest.wsgi:application
