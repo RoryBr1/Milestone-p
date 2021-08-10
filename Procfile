@@ -1,1 +1,1 @@
-web: gunicorn shopbest.shopbest.wsgi --log-file -
+web: gunicorn shopbest.shopbest.wsgi:application
