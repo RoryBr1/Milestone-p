@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
 
     'django.contrib.auth',
     'django.contrib.sites',
@@ -65,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.normpath(os.path.join(BASE_DIR, 'templates')),
+            os.path.join(BASE_DIR / 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,6 +79,11 @@ TEMPLATES = [
     },
 ]
 
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = "/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

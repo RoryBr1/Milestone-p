@@ -1,23 +1,18 @@
 from django.shortcuts import render
-from .models import *
 from django.http import JsonResponse
 import json
 import datetime
-from django.contrib import messages
-
-
-#   Views
-
+from .models import * 
 
 def store(request):
-	# Is user logged in?
+
 	if request.user.is_authenticated:
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 		items = order.orderitem_set.all()
 		cartItems = order.get_cart_items
 	else:
-		#	Create temporary cart for guest user
+		#Create empty cart for now for non-logged in user
 		items = []
 		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
 		cartItems = order['get_cart_items']
@@ -28,14 +23,20 @@ def store(request):
 
 
 def cart(request):
-	#	Is user logged in?
+
 	if request.user.is_authenticated:
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 		items = order.orderitem_set.all()
 		cartItems = order.get_cart_items
 	else:
-		#	Create temporary cart for guest user
+		#Create empty cart for now for non-logged in user
+		try:
+			cart = json.loads(request.COOKIES['cart'])
+		except:
+			cart = {}
+			print(cart)
+
 		items = []
 		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
 		cartItems = order['get_cart_items']
@@ -45,21 +46,19 @@ def cart(request):
 
 
 def checkout(request):
-	#	Is user logged in?
 	if request.user.is_authenticated:
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
 		items = order.orderitem_set.all()
 		cartItems = order.get_cart_items
 	else:
-		#	Create temporary cart for guest user
+		#Create empty cart for now for non-logged in user
 		items = []
 		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
 		cartItems = order['get_cart_items']
 
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
-
 
 def updateItem(request):
 	data = json.loads(request.body)
@@ -76,13 +75,8 @@ def updateItem(request):
 
 	if action == 'add':
 		orderItem.quantity = (orderItem.quantity + 1)
-		messages.info(request, f'{product.name} added to cart')
 	elif action == 'remove':
 		orderItem.quantity = (orderItem.quantity - 1)
-		messages.info(request, f'{product.name} removed from cart')
-	elif action == 'removeAll':
-		messages.info(request, f'All {product.name} removed from cart')
-		orderItem.quantity = 0
 
 	orderItem.save()
 
@@ -109,10 +103,10 @@ def processOrder(request):
 			ShippingAddress.objects.create(
 			customer=customer,
 			order=order,
-			address1=data['shipping']['address1'],
-			address2=data['shipping']['address2'],
-			county=data['shipping']['county'],
-			eircode=data['shipping']['eircode'],
+			address=data['shipping']['address'],
+			city=data['shipping']['city'],
+			state=data['shipping']['state'],
+			zipcode=data['shipping']['zipcode'],
 			)
 	else:
 		print('User is not logged in')
