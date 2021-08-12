@@ -7,7 +7,15 @@
     {% for product in products %}
     <div class="col-lg-4">
         <div class="box-element product">
-            <img class="thumbnail" src="{{product.imageURL}}">
+                        {% if product.image %}
+            <a href="">
+                <img class="thumbnail" src="{{ product.imageURL }}" alt="{{ product.name }}">
+            </a>
+            {% else %}
+            <a href="">
+                <img class="thumbnail" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+            </a>
+            {% endif %}
             <h6 class="text-center"><strong>{{product.name}}</strong></h6>
             <hr>
             <div class="clearfix">
