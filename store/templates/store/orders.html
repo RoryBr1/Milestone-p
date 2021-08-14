@@ -1,0 +1,18 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<h3 class="text-center mt-3">Orders <i class="fas fa-clipboard-list"></i></h3>
+
+<div class="box-element">
+    {% for order in orders %}
+    <div class="card">
+        Order ID: {{ order.id }}
+        <br>
+        Order Complete? {{ order.complete }}
+        <br>
+        Transaction ID: {{ order.transaction_id }}
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

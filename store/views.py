@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 import json
 import datetime
 from .models import * 
+from django.contrib import messages
+
 
 def store(request):
 
@@ -46,6 +48,7 @@ def cart(request):
 
 
 def checkout(request):
+
 	if request.user.is_authenticated:
 		customer = request.user.customer
 		order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -60,7 +63,9 @@ def checkout(request):
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
 
+
 def updateItem(request):
+
 	data = json.loads(request.body)
 	productId = data['productId']
 	action = data['action']
@@ -85,7 +90,34 @@ def updateItem(request):
 
 	return JsonResponse('Item was added', safe=False)
 
+
+def addProduct(request):
+	return render(request, 'store/add-product.html')
+
+
+def deleteProduct(request, product_id):
+
+	obj = get_object_or_404(Product, id=product_id)
+	obj.delete()
+	messages.info(request, 'Product entry deleted!')
+
+	return redirect('/')
+
+
+def viewOrders(request):
+	orders = Order.objects.all()
+	context = {'orders':orders}
+	return render(request, 'store/orders.html', context)
+
+	
+def viewCustomers(request):
+	customers = Customer.objects.all()
+	context = {'customers':customers}
+	return render(request, 'store/customers.html', context)
+
+
 def processOrder(request):
+
 	transaction_id = datetime.datetime.now().timestamp()
 	data = json.loads(request.body)
 

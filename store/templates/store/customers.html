@@ -1,0 +1,12 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<h3 class="text-center mt-3">Customers <i class="fas fa-male"></i></h3>
+
+<div class="box-element">
+    {% for customer in customers %}
+    <div class="card">
+        {{ customer.name.title }} ( {{ customer.email }} )
+    {% endfor %}
+</div>
+{% endblock %}
