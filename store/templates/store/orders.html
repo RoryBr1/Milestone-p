@@ -6,11 +6,11 @@
 <div class="box-element">
     {% for order in orders %}
     <div class="card">
-        Order ID: {{ order.id }}
-        <br>
-        Order Complete? {{ order.complete }}
-        <br>
-        Transaction ID: {{ order.transaction_id }}
+        <div class="card-header">Order ID <strong>{{ order.id }}</strong></div>
+        <div class="card-body">
+            Order Complete?  <strong>{{ order.complete }}</strong>
+            <br>
+            Transaction ID:  <strong>{{ order.transaction_id }}</strong></div>
 
     </div>
     {% endfor %}

@@ -6,7 +6,13 @@
 <div class="box-element">
     {% for customer in customers %}
     <div class="card">
-        {{ customer.name.title }} ( {{ customer.email }} )
+        <div class="card-header">
+            <strong>{{ customer.name.title }}</strong>
+        </div>
+
+        <div class="card-body">
+            E-Mail: <strong>{{ customer.email }}</strong>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
